@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+
+            <div class="jumbotron p-3">
+
+                <h3>Stay fit with Trainingmate. Manage your <b>Exercises and Meals</b>  <button type="button"  class="btn btn-success float-right" data-toggle="modal" data-target="#addModal">Add New Exercise or Meal</button> </h3>
+
+                <h3>Exercises</h3>
+                <table class="table table-hover table-dark">
+                    <tr>
+                        <th>Identificator</th>
+                        <th>Name</th>
+                        <th>Calories</th>
+                        <th>Duration</th>
+                        <th>Intensity</th>
+                        <th>Action</th>
+                    </tr>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                         {% for message in messages %}
+                           <div class="alert alert-success alert-dismissable" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                <span aria-hidden="true">&times;</span>
+                                 </button>
+                                  {{ message }}
+                            </div>
+                         {% endfor %}
+                     {% endif %}
+                    {% endwith %}
+
+                    {% for exercise in exercises %}
+                    <tr>
+                        <td>{{ exercise.exercise_identificator }}</td>
+                        <td>{{ exercise.exercise_name }}</td>
+                        <td>{{ exercise.exercise_calories }}</td>
+                        <td>{{ exercise.exercise_duration }}</td>
+                        <td>{{ exercise.exercise_intensity }}</td>
+                        <td>
+                            <a href="/update_exercise/{{ exercise.exercise_identificator }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editModal{{ exercise.exercise_identificator }}">Edit</a>
+                            <a href="/delete_exercise/{{ exercise.exercise_identificator }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete?')">Delete</a>
+                        </td>
+                    </tr>
+                    <!-- Modal Edit Exercise -->
+                    <div id="editModal{{ exercise.exercise_identificator }}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Update Exercise</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('update_exercise') }}" method="POST">
+                                        <div class="form-group">
+                                            <label>Name:</label>
+                                            <input type="hidden" name="exercise_identificator" value="{{ exercise.exercise_identificator }}">
+                                            <input type="text" class="form-control" name="exercise_name" value="{{ exercise.exercise_name }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Calories:</label>
+                                            <input type="text" class="form-control" name="exercise_calories" value="{{ exercise.exercise_calories }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Duration:</label>
+                                            <input type="text" class="form-control" name="exercise_duration" value="{{ exercise.exercise_duration }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Intensity:</label>
+                                            <input type="text" class="form-control" name="exercise_intensity" value="{{ exercise.exercise_intensity }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">Update Exercise</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </table>
+
+                <h3>Meals</h3>
+                <table class="table table-hover table-dark">
+                    <tr>
+                        <th>Identificator</th>
+                        <th>Name</th>
+                        <th>Calories</th>
+                        <th>Number</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for meal in meals %}
+                    <tr>
+                        <td>{{ meal.meal_identificator }}</td>
+                        <td>{{ meal.meal_name }}</td>
+                        <td>{{ meal.meal_calories }}</td>
+                        <td>{{ meal.meal_number }}</td>
+                        <td>{{ meal.meal_category }}</td>
+                        <td>{{ meal.meal_location }}</td>
+                        <td>
+                            <a href="/update_meal/{{ meal.meal_identificator }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editModal{{ meal.meal_identificator }}">Edit</a>
+                            <a href="/delete_meal/{{ meal.meal_identificator }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete?')">Delete</a>
+                        </td>
+                    </tr>
+                    <!-- Modal Edit Meal -->
+                    <div id="editModal{{ meal.meal_identificator }}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Update Meal</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('update_meal') }}" method="POST">
+                                        <div class="form-group">
+                                            <label>Name:</label>
+                                            <input type="hidden" name="meal_identificator" value="{{ meal.meal_identificator }}">
+                                            <input type="text" class="form-control" name="meal_name" value="{{ meal.meal_name }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Calories:</label>
+                                            <input type="text" class="form-control" name="meal_calories" value="{{ meal.meal_calories }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Number:</label>
+                                            <input type="text" class="form-control" name="meal_number" value="{{ meal.meal_number }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Category:</label>
+                                            <input type="text" class="form-control" name="meal_category" value="{{ meal.meal_category }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Location:</label>
+                                            <input type="text" class="form-control" name="meal_location" value="{{ meal.meal_location }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">Update Meal</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<h5>Calculate exercise duration</h5>
+<form action="{{ url_for('calculate_total_duration') }}" method="GET">
+    <button class="btn btn-primary" type="submit">Calculate Exercise Duration</button>
+</form>
+<h5>Calculate exercise calories</h5>
+<form action="{{ url_for('calculate_exercise_calories')}}" method="GET">
+    <button class="btn btn-primary" type="submit">Calculate Calories Spent</button>
+</form>
+<h5>Calculate meal calories</h5>
+<form action="{{url_for('calculate_meal_calories')}}" method="GET">
+    <button class="btn btn-primary" type="sumbit">Calculate Calories Consumed</button>
+</form>
+<h5>Sort meals by calories</h5>
+<form action="{{url_for('sort_meals_by_calories')}}" method="GET">
+    <button class="btn btn-primary" type="submit">Sort Meals By Calories</button>
+</form>
+<h5>Sort exercises by duration</h5>
+<form action="{{url_for('sort_exercises_by_duration')}}" method="GET">
+    <button class="btn btn-primary" type="submit">Sort Exercises By Duration</button>
+</form>
+<h5>Calculate caloric balance</h5>
+<form action="{{url_for('calculate_caloric_balance')}}" method="GET">
+    <button class="btn btn-primary" type="submit">Calculate Caloric Balance</button>
+</form>
+<h5>Show graph with exercise calories</h5>
+<form action="{{url_for('chart_data')}}" method="GET">
+    <button class="btn btn-primary" type="submit">Show Graph For Exercise Calories</button>
+</form>
+<h5>Show graph with meal calories</h5>
+<form action="{{url_for('chart_data2')}}" method="GET">
+    <button class="btn btn-primary" type="submit">Show Graph For Meal Calories</button>
+</form>
+<h5>Show graph with exercises and their intensities</h5>
+<form action="{{url_for('chart_data3')}}" method="GET">
+    <button class="btn btn-primary" type="submit">Show Graph For Exercise Intensities</button>
+</form>
+<h5>Show graph with meals and their categories</h5>
+<form action="{{url_for('chart_data4')}}" method="GET">
+    <button class="btn btn-primary" type="submit">Show Graph For Meal Categories</button>
+</form>
+
+<!-- Modal Add Exercise or Meal -->
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Exercise or Meal</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#exercise">Exercise</a></li>
+                    <li><a data-toggle="tab" href="#meal">Meal</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="exercise" class="tab-pane fade in active">
+                        <form action="{{ url_for('insert_exercise') }}" method="POST">
+                           <div class="form-group">
+                                 <label>Exercise Identificator</label>
+                                 <input type="text" class="form-control" name = "exercise_identificator" required>
+                           </div>
+                           <div class="form-group">
+                                <label>Name:</label>
+                                <input type="text" class="form-control" name="exercise_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Calories:</label>
+                                <input type="text" class="form-control" name="exercise_calories" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Duration:</label>
+                                <input type="text" class="form-control" name="exercise_duration" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Intensity:</label>
+                                <input type="text" class="form-control" name="exercise_intensity" required>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Add Exercise</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="meal" class="tab-pane fade in active">
+                        <form action="{{ url_for('insert_meal') }}" method="POST">
+                           <div class="form-group">
+                              <label>Meal Identificator</label>
+                              <input type="text" class="form-control" name = "meal_identificator" required>
+                           </div>
+                            <div class="form-group">
+                                <label>Name:</label>
+                                <input type="text" class="form-control" name="meal_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Calories:</label>
+                                <input type="text" class="form-control" name="meal_calories" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Number:</label>
+                                <input type="text" class="form-control" name="meal_number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category:</label>
+                                <input type="text" class="form-control" name="meal_category" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Location:</label>
+                                <input type="text" class="form-control" name="meal_location" required>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Add Meal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
