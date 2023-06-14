@@ -1,1 +1,1 @@
-# TraningMate
+# TrainingMate
