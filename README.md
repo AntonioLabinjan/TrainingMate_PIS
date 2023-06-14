@@ -1,7 +1,7 @@
 # TrainingMate 
 TrainingMate je web aplikacija namijenjena evidentiranju vježbi i obroka uz razne funkcionalnosti koje korisnicima omogućuju lakše praćanje informacija vezanih uz vježbe i obroke. 
 ## Funkcionalnosti
-### Osnovne funkcionlanosti
+### Osnovne funkcionalnosti
 1. Create exercise
 2. Read exercise
 3. Update exercise
