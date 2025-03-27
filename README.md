@@ -1,3 +1,4 @@
+JAKO PUNO ZA*EBANCIJE ZA JAKO JEDNOSTAVNU STVAR <3
 # TrainingMate 
 TrainingMate je web aplikacija namijenjena evidentiranju vježbi i obroka uz razne funkcionalnosti koje korisnicima omogućuju lakše praćanje informacija vezanih uz vježbe i obroke. 
 ## Funkcionalnosti
